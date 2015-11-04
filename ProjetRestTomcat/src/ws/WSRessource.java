@@ -1,7 +1,10 @@
 package ws;
 
 import javax.ws.rs.*;
-import metier.Etudiant;
+
+import dao.HibernateClient;
+import metier.*;
+
 import java.util.*;
 import java.text.*;
 
@@ -13,6 +16,38 @@ public class WSRessource {
 	/** Creates a new instance of WsSalutation */
 	public WSRessource() {
 	}
+	
+	@GET
+	@Path("/getjson")
+	@Produces("application/json")
+	// http://localhost:8080/ProjetRestFull/ressources/getjson
+	public Client afficherClient(String numCli) throws ParseException {
+		HibernateClient unGestClient = new HibernateClient();
+		Client unClient = unGestClient.getUnClient(numCli);
+		return unClient;
+	}
+	
+	@GET
+	@Path("/getjson")
+	@Produces("application/json")
+	// http://localhost:8080/ProjetRestFull/ressources/getjson
+	public Client[] afficherClients() throws ParseException {
+		HibernateClient unGestClient = new HibernateClient();
+		Client[] lesClient = (Client[]) unGestClient.getTouslesClients().toArray();
+		return lesClient;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	@GET
 	@Path("/hello/{unnom}")
