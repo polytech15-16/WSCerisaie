@@ -94,16 +94,16 @@ public class WSRessource {
 	}
 
 	@GET
-	@Path("/getClient")
+	@Path("/getClient/{id}")
 	@Produces("application/json")
-	public Client getClientToJSON() throws ParseException {
-		// TODO faire l'appel a hibernate pouyr recuperer la liste des clients
+	public Client getClientToJSON(@PathParam("id") String id) throws ParseException {
+		// TODO faire l'appel a hibernate pouyr recuperer le client avec cet id
 
 		Client unClient = new Client();
 		unClient.setNomCli("De Sousa");
 		unClient.setAdrRueCli("Rue anne frank");
 		unClient.setCpCli("38550");
-		unClient.setNumCli(1);
+		unClient.setNumCli(Integer.parseInt(id));
 		unClient.setVilleCli("Saint Maurice");
 
 		return unClient;
