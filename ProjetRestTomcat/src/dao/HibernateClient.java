@@ -24,7 +24,7 @@ public class HibernateClient {
 		List<Client> mesClients = null;
 		try {
 			session = ServiceHibernate.currentSession();
-			// On passe une requ�te de type SQL mlais on travaille sur la
+			// On passe une requete de type SQL mlais on travaille sur la
 			// classe
 			Query query = session.createQuery("select c from Client as c");
 			mesClients = query.list();
