@@ -14,9 +14,7 @@ public class ServiceHibernate {
 	private static ServiceRegistry serviceRegistry;
 
 	static {
-
 		try {
-
 			// on lit la configuration du fichier hibernate.cfg.xml
 			Configuration configuration = new Configuration();
 			configuration.configure();

@@ -1,17 +1,8 @@
 package ws;
 
-import javax.ws.rs.*;
-
-import dao.HibernateClient;
-import metier.*;
-
-import java.util.*;
-import java.text.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -21,50 +12,34 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import dao.HibernateClient;
 import metier.Client;
 import metier.Etudiant;
 
 @Path("/ressources")
 public class WSRessource {
-	// @Context
-	// private UriInfo context;
 
 	/** Creates a new instance of WsSalutation */
 	public WSRessource() {
-
 	}
-	
+
 	@GET
-	@Path("/getjson")
+	@Path("/getClient/{id}")
 	@Produces("application/json")
 	// http://localhost:8080/ProjetRestFull/ressources/getjson
-	public Client afficherClient(String numCli) throws ParseException {
-		HibernateClient unGestClient = new HibernateClient();
-		Client unClient = unGestClient.getUnClient(numCli);
-		return unClient;
+	public Client afficherClient(@PathParam("id") String id) throws ParseException {
+		HibernateClient hibernateClient = new HibernateClient();
+		return hibernateClient.getUnClient(id);
 	}
-	
+
 	@GET
-	@Path("/getjson")
+	@Path("/getClientsList")
 	@Produces("application/json")
 	// http://localhost:8080/ProjetRestFull/ressources/getjson
 	public Client[] afficherClients() throws ParseException {
-		HibernateClient unGestClient = new HibernateClient();
-		Client[] lesClient = (Client[]) unGestClient.getTouslesClients().toArray();
-		return lesClient;
+		HibernateClient hibernateClient = new HibernateClient();
+		return (Client[]) hibernateClient.getTouslesClients().toArray();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	@GET
 	@Path("/hello/{unnom}")
@@ -112,40 +87,6 @@ public class WSRessource {
 		unEtudiant.setDnaissance(unedate);
 		return unEtudiant;
 
-	}
-
-	@GET
-	@Path("/getClientsList")
-	@Produces("application/json")
-	public List<Client> getClientsListToJSON() throws ParseException {
-		// TODO faire l'appel a hibernate pouyr recuperer la liste des clients
-		List<Client> listeClients = new ArrayList<Client>();
-		for (int i = 0; i < 10; i++) {
-			Client unClient = new Client();
-			unClient.setNomCli("De Sousa" + i);
-			unClient.setAdrRueCli("Rue anne frank" + i);
-			unClient.setCpCli("38550" + i);
-			unClient.setNumCli(1 + i);
-			unClient.setVilleCli("Saint Maurice" + i);
-			listeClients.add(unClient);
-		}
-		return listeClients;
-	}
-
-	@GET
-	@Path("/getClient/{id}")
-	@Produces("application/json")
-	public Client getClientToJSON(@PathParam("id") String id) throws ParseException {
-		// TODO faire l'appel a hibernate pouyr recuperer le client avec cet id
-
-		Client unClient = new Client();
-		unClient.setNomCli("De Sousa");
-		unClient.setAdrRueCli("Rue anne frank");
-		unClient.setCpCli("38550");
-		unClient.setNumCli(Integer.parseInt(id));
-		unClient.setVilleCli("Saint Maurice");
-
-		return unClient;
 	}
 
 	//

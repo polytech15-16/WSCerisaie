@@ -15,6 +15,10 @@ import service.ServiceHibernate;
 public class HibernateClient {
 	private Session session;
 
+	public HibernateClient() {
+		session = ServiceHibernate.currentSession();
+	}
+
 	// On récupère toutes les lignes de la table dans une liste
 	/*
 	 * (non-Javadoc)
@@ -25,7 +29,6 @@ public class HibernateClient {
 	public List<Client> getTouslesClients() throws HibernateException, ServiceHibernateException {
 		List<Client> mesClients = null;
 		try {
-			session = ServiceHibernate.currentSession();
 			// On passe une requete de type SQL mais on travaille sur la
 			// classe
 			Query query = session.createQuery("select c from Client as c");
@@ -35,11 +38,10 @@ public class HibernateClient {
 		}
 		return mesClients;
 	}
-	
+
 	public Client getUnClient(String numCli) throws HibernateException, ServiceHibernateException {
 		Client cli = null;
 		try {
-			session = ServiceHibernate.currentSession();
 			Query query = session.createQuery("SELECT c FROM Client AS c where c.NumCli = '" + numCli + "'");
 			List<Client> lesClients = query.list();
 			if (lesClients != null && lesClients.size() > 0) {
@@ -50,20 +52,21 @@ public class HibernateClient {
 		}
 		return cli;
 	}
-	
-	public boolean saveClient(Client c) throws HibernateException, ServiceHibernateException {		
+
+	public boolean saveClient(Client c) throws HibernateException, ServiceHibernateException {
 		int ret = 0;
 		try {
-			session = ServiceHibernate.currentSession();
-			Query query = session.createQuery("INSERT INTO Client VALUES (" + c.getNumCli() + ", " + c.getNomCli() + "" + c.getAdrRueCli() + "" + c.getCpCli() + "" + c.getVilleCli() + "" + c.getPieceCli() + "" + c.getNumPieceCli() + ")");
+			Query query = session.createQuery("INSERT INTO Client VALUES (" + c.getNumCli() + ", " + c.getNomCli() + ""
+					+ c.getAdrRueCli() + "" + c.getCpCli() + "" + c.getVilleCli() + "" + c.getPieceCli() + ""
+					+ c.getNumPieceCli() + ")");
 			ret = query.executeUpdate();
 		} catch (Exception ex) {
 			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
 		}
 		return (ret > 0);
 	}
-	
-	public boolean deleteClient(String numCli) throws HibernateException, ServiceHibernateException {		
+
+	public boolean deleteClient(String numCli) throws HibernateException, ServiceHibernateException {
 		int ret = 0;
 		try {
 			session = ServiceHibernate.currentSession();
@@ -74,11 +77,7 @@ public class HibernateClient {
 		}
 		return (ret > 0);
 	}
-	
-	
-	
-	
-	
+
 	public List<Sejour> getTouslesSejours() throws HibernateException, ServiceHibernateException {
 		List<Sejour> mesSejours = null;
 		try {
@@ -92,7 +91,7 @@ public class HibernateClient {
 		}
 		return mesSejours;
 	}
-	
+
 	public Sejour getUnSejour(String numSej) throws HibernateException, ServiceHibernateException {
 		Sejour sejour = null;
 		try {
@@ -107,10 +106,7 @@ public class HibernateClient {
 		}
 		return sejour;
 	}
-	
-	
-	
-	
+
 	public List<Activite> getActivites(int numSej) throws HibernateException, ServiceHibernateException {
 		List<Activite> mesActivites = null;
 		try {
