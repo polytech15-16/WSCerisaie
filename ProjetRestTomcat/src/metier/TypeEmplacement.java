@@ -1,5 +1,5 @@
 package metier;
-// Generated 4 nov. 2015 15:25:31 by Hibernate Tools 4.3.1
+// Generated 5 nov. 2015 15:21:55 by Hibernate Tools 4.3.1
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -26,7 +26,7 @@ public class TypeEmplacement implements java.io.Serializable {
 	private Integer codeTypeE;
 	private String libtypepl;
 	private float tariftypepl;
-	private Set emplacements = new HashSet(0);
+	private Set<Emplacement> emplacements = new HashSet<Emplacement>(0);
 
 	public TypeEmplacement() {
 	}
@@ -36,7 +36,7 @@ public class TypeEmplacement implements java.io.Serializable {
 		this.tariftypepl = tariftypepl;
 	}
 
-	public TypeEmplacement(String libtypepl, float tariftypepl, Set emplacements) {
+	public TypeEmplacement(String libtypepl, float tariftypepl, Set<Emplacement> emplacements) {
 		this.libtypepl = libtypepl;
 		this.tariftypepl = tariftypepl;
 		this.emplacements = emplacements;
@@ -73,11 +73,11 @@ public class TypeEmplacement implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "typeEmplacement")
-	public Set getEmplacements() {
+	public Set<Emplacement> getEmplacements() {
 		return this.emplacements;
 	}
 
-	public void setEmplacements(Set emplacements) {
+	public void setEmplacements(Set<Emplacement> emplacements) {
 		this.emplacements = emplacements;
 	}
 

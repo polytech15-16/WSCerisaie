@@ -1,5 +1,5 @@
 package metier;
-// Generated 4 nov. 2015 15:25:31 by Hibernate Tools 4.3.1
+// Generated 5 nov. 2015 15:21:55 by Hibernate Tools 4.3.1
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -30,13 +30,13 @@ public class Client implements java.io.Serializable {
 	private String villeCli;
 	private String pieceCli;
 	private String numPieceCli;
-	private Set sejours = new HashSet(0);
+	private Set<Sejour> sejours = new HashSet<Sejour>(0);
 
 	public Client() {
 	}
 
 	public Client(String nomCli, String adrRueCli, String cpCli, String villeCli, String pieceCli, String numPieceCli,
-			Set sejours) {
+			Set<Sejour> sejours) {
 		this.nomCli = nomCli;
 		this.adrRueCli = adrRueCli;
 		this.cpCli = cpCli;
@@ -48,7 +48,6 @@ public class Client implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-
 	@Column(name = "NumCli", unique = true, nullable = false)
 	public Integer getNumCli() {
 		return this.numCli;
@@ -113,11 +112,11 @@ public class Client implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
-	public Set getSejours() {
+	public Set<Sejour> getSejours() {
 		return this.sejours;
 	}
 
-	public void setSejours(Set sejours) {
+	public void setSejours(Set<Sejour> sejours) {
 		this.sejours = sejours;
 	}
 

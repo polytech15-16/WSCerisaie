@@ -1,5 +1,5 @@
 package metier;
-// Generated 4 nov. 2015 15:25:31 by Hibernate Tools 4.3.1
+// Generated 5 nov. 2015 15:21:55 by Hibernate Tools 4.3.1
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -27,7 +27,7 @@ public class Sport implements java.io.Serializable {
 	private String libelleSport;
 	private String uniteTpsSport;
 	private float tarifUnite;
-	private Set activites = new HashSet(0);
+	private Set<Activite> activites = new HashSet<Activite>(0);
 
 	public Sport() {
 	}
@@ -38,7 +38,7 @@ public class Sport implements java.io.Serializable {
 		this.tarifUnite = tarifUnite;
 	}
 
-	public Sport(String libelleSport, String uniteTpsSport, float tarifUnite, Set activites) {
+	public Sport(String libelleSport, String uniteTpsSport, float tarifUnite, Set<Activite> activites) {
 		this.libelleSport = libelleSport;
 		this.uniteTpsSport = uniteTpsSport;
 		this.tarifUnite = tarifUnite;
@@ -85,11 +85,11 @@ public class Sport implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sport")
-	public Set getActivites() {
+	public Set<Activite> getActivites() {
 		return this.activites;
 	}
 
-	public void setActivites(Set activites) {
+	public void setActivites(Set<Activite> activites) {
 		this.activites = activites;
 	}
 

@@ -1,8 +1,7 @@
 package ws;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,7 +13,6 @@ import javax.ws.rs.QueryParam;
 
 import dao.HibernateClient;
 import metier.Client;
-import metier.Etudiant;
 
 @Path("/ressources")
 public class WSRessource {
@@ -29,16 +27,16 @@ public class WSRessource {
 	// http://localhost:8080/ProjetRestFull/ressources/getjson
 	public Client afficherClient(@PathParam("id") String id) throws ParseException {
 		HibernateClient hibernateClient = new HibernateClient();
-		return hibernateClient.getUnClient(id);
+		return hibernateClient.getUnClient(Integer.parseInt(id));
 	}
 
 	@GET
 	@Path("/getClientsList")
 	@Produces("application/json")
 	// http://localhost:8080/ProjetRestFull/ressources/getjson
-	public Client[] afficherClients() throws ParseException {
+	public List<Client> afficherClients() throws ParseException {
 		HibernateClient hibernateClient = new HibernateClient();
-		return (Client[]) hibernateClient.getTouslesClients().toArray();
+		return hibernateClient.getTouslesClients();
 	}
 
 	@GET
@@ -51,42 +49,6 @@ public class WSRessource {
 			return "Bonjour  " + name + " et bienvenue dans le monde RestFull!";
 		}
 		return "Bienvenue xxxxxx  dans le monde RestFul!";
-	}
-
-	// /
-	// On récupère un objet sous la forme XML
-	// /
-	@GET
-	@Path("/get")
-	@Produces("application/xml")
-	// http://localhost:8080/ProjetWebRestFull/ressources/get
-	public Etudiant getEtudiantToXML() throws ParseException {
-
-		Etudiant unEtudiant = new Etudiant();
-		unEtudiant.setNom("Vial");
-		unEtudiant.setPrenom("Antoine");
-
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date unedate = sdf.parse("22/09/1988");
-		unEtudiant.setDnaissance(unedate);
-		return unEtudiant;
-	}
-
-	@GET
-	@Path("/getjson")
-	@Produces("application/json")
-	// http://localhost:8080/ProjetRestFull/ressources/getjson
-	public Etudiant getEtudiantToJSON() throws ParseException {
-
-		Etudiant unEtudiant = new Etudiant();
-		unEtudiant.setNom("Vial");
-		unEtudiant.setPrenom("Antoine");
-
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date unedate = sdf.parse("22/09/1988");
-		unEtudiant.setDnaissance(unedate);
-		return unEtudiant;
-
 	}
 
 	//

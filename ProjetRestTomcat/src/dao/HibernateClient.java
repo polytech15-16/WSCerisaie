@@ -39,18 +39,17 @@ public class HibernateClient {
 		return mesClients;
 	}
 
-	public Client getUnClient(String numCli) throws HibernateException, ServiceHibernateException {
-		Client cli = null;
+	public Client getUnClient(int numCli) throws HibernateException, ServiceHibernateException {
 		try {
-			Query query = session.createQuery("SELECT c FROM Client AS c where c.NumCli = '" + numCli + "'");
+			Query query = session.createQuery("SELECT c FROM Client AS c where c.numCli = " + numCli);
 			List<Client> lesClients = query.list();
 			if (lesClients != null && lesClients.size() > 0) {
-				cli = lesClients.get(0);
+				return lesClients.get(0);
 			}
 		} catch (Exception ex) {
 			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
 		}
-		return cli;
+		return null;
 	}
 
 	public boolean saveClient(Client c) throws HibernateException, ServiceHibernateException {
