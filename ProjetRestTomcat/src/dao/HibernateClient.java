@@ -52,24 +52,18 @@ public class HibernateClient {
 		return null;
 	}
 
-	public boolean saveClient(Client c) throws HibernateException, ServiceHibernateException {
-		int ret = 0;
-		try {
-			Query query = session.createQuery("INSERT INTO Client VALUES (" + c.getNumCli() + ", " + c.getNomCli() + ""
-					+ c.getAdrRueCli() + "" + c.getCpCli() + "" + c.getVilleCli() + "" + c.getPieceCli() + ""
-					+ c.getNumPieceCli() + ")");
-			ret = query.executeUpdate();
-		} catch (Exception ex) {
-			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
-		}
-		return (ret > 0);
+	public void saveClient(Client c) throws HibernateException, ServiceHibernateException {
+		org.hibernate.Transaction tx = session.beginTransaction();
+		session.saveOrUpdate(c);
+		tx.commit();
 	}
 
 	public boolean deleteClient(String numCli) throws HibernateException, ServiceHibernateException {
 		int ret = 0;
 		try {
+			// TODO supprimer les séjours liées à cet utilisateur avant
 			session = ServiceHibernate.currentSession();
-			Query query = session.createQuery("DELETE FROM Client AS c WHERE c.NumCli = '" + numCli + "'");
+			Query query = session.createQuery("DELETE FROM Client AS c WHERE c.numCli = " + numCli);
 			ret = query.executeUpdate();
 		} catch (Exception ex) {
 			System.out.println("Erreur ServiceHiber : " + ex.getMessage());

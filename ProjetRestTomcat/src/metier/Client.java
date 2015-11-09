@@ -1,8 +1,6 @@
 package metier;
 // Generated 5 nov. 2015 15:21:55 by Hibernate Tools 4.3.1
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,6 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Client")
 public class Client implements java.io.Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer numCli;
 	private String nomCli;
 	private String adrRueCli;
@@ -47,7 +48,7 @@ public class Client implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "NumCli", unique = true, nullable = false)
 	public Integer getNumCli() {
 		return this.numCli;
@@ -69,6 +70,13 @@ public class Client implements java.io.Serializable {
 	@Column(name = "AdrRueCli", length = 40)
 	public String getAdrRueCli() {
 		return this.adrRueCli;
+	}
+
+	@Override
+	public String toString() {
+		return "Client [numCli=" + numCli + ", nomCli=" + nomCli + ", adrRueCli=" + adrRueCli + ", cpCli=" + cpCli
+				+ ", villeCli=" + villeCli + ", pieceCli=" + pieceCli + ", numPieceCli=" + numPieceCli + ", sejours="
+				+ sejours + "]";
 	}
 
 	public void setAdrRueCli(String adrRueCli) {

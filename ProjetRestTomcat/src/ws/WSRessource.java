@@ -1,5 +1,6 @@
 package ws;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+
+import org.codehaus.jackson.map.ObjectMapper;
 
 import dao.HibernateClient;
 import metier.Client;
@@ -37,6 +40,36 @@ public class WSRessource {
 	public List<Client> afficherClients() throws ParseException {
 		HibernateClient hibernateClient = new HibernateClient();
 		return hibernateClient.getTouslesClients();
+	}
+
+	@POST
+	@Path("/saveClient")
+	@Produces("application/json")
+	@Consumes("application/json")
+	public String saveClient(String client) {
+		ObjectMapper mapper = new ObjectMapper();
+		Client c = null;
+		System.out.println(client);
+		try {
+			c = mapper.readValue(client, Client.class);
+			System.out.println("Client : " + c.toString());
+			HibernateClient hibernateClient = new HibernateClient();
+			hibernateClient.saveClient(c);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		return "Le client est enregistré";
+	}
+
+	@POST
+	@Path("/deleteClient")
+	@Produces("application/json")
+	@Consumes("application/json")
+	public String deleteClient(String id) {
+		HibernateClient hibernateClient = new HibernateClient();
+		hibernateClient.deleteClient(id);
+		return "Le client est enregistré";
 	}
 
 	@GET
