@@ -3,8 +3,8 @@ package metier;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +30,7 @@ public class Emplacement implements java.io.Serializable {
 	private TypeEmplacement typeEmplacement;
 	private float surfaceEmpl;
 	private int nbPersMaxEmpl;
-	private Set<Sejour> sejours = new HashSet<Sejour>(0);
+	private List<Sejour> sejours = new ArrayList<Sejour>();
 
 	public Emplacement() {
 	}
@@ -41,7 +41,7 @@ public class Emplacement implements java.io.Serializable {
 		this.nbPersMaxEmpl = nbPersMaxEmpl;
 	}
 
-	public Emplacement(TypeEmplacement typeEmplacement, float surfaceEmpl, int nbPersMaxEmpl, Set<Sejour> sejours) {
+	public Emplacement(TypeEmplacement typeEmplacement, float surfaceEmpl, int nbPersMaxEmpl, List<Sejour> sejours) {
 		this.typeEmplacement = typeEmplacement;
 		this.surfaceEmpl = surfaceEmpl;
 		this.nbPersMaxEmpl = nbPersMaxEmpl;
@@ -60,7 +60,6 @@ public class Emplacement implements java.io.Serializable {
 		this.numEmpl = numEmpl;
 	}
 
-	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CodeTypeE", nullable = false)
 	public TypeEmplacement getTypeEmplacement() {
@@ -89,12 +88,13 @@ public class Emplacement implements java.io.Serializable {
 		this.nbPersMaxEmpl = nbPersMaxEmpl;
 	}
 
+	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "emplacement")
-	public Set<Sejour> getSejours() {
+	public List<Sejour> getSejours() {
 		return this.sejours;
 	}
 
-	public void setSejours(Set<Sejour> sejours) {
+	public void setSejours(List<Sejour> sejours) {
 		this.sejours = sejours;
 	}
 

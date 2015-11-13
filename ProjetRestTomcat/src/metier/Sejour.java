@@ -85,7 +85,6 @@ public class Sejour implements java.io.Serializable {
 		this.client = client;
 	}
 
-	@XmlTransient
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "NumEmpl", nullable = false)
 	public Emplacement getEmplacement() {

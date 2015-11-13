@@ -16,12 +16,23 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import dao.HibernateClient;
 import metier.Client;
+import metier.Sejour;
 
 @Path("/ressources")
 public class WSRessource {
 
 	/** Creates a new instance of WsSalutation */
 	public WSRessource() {
+
+	}
+
+	@GET
+	@Path("/getSejour/{id}")
+	@Produces("application/json")
+	// http://localhost:8080/ProjetRestFull/ressources/getjson
+	public Sejour afficherSejour(@PathParam("id") String id) throws ParseException {
+		HibernateClient hibernateClient = new HibernateClient();
+		return hibernateClient.getUnSejour(Integer.parseInt(id));
 	}
 
 	@GET

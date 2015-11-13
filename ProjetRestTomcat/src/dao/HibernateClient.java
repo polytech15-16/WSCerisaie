@@ -95,11 +95,11 @@ public class HibernateClient {
 		return mesSejours;
 	}
 
-	public Sejour getUnSejour(String numSej) throws HibernateException, ServiceHibernateException {
+	public Sejour getUnSejour(int numSej) throws HibernateException, ServiceHibernateException {
 		Sejour sejour = null;
 		try {
 			session = ServiceHibernate.currentSession();
-			Query query = session.createQuery("SELECT s FROM Sejour AS s where s.NumSej = '" + numSej + "'");
+			Query query = session.createQuery("SELECT s FROM Sejour AS s where s.numSej = " + numSej);
 			List<Sejour> lesSejours = query.list();
 			if (lesSejours != null && lesSejours.size() > 0) {
 				sejour = lesSejours.get(0);
