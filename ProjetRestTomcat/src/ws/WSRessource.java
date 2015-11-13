@@ -49,12 +49,13 @@ public class WSRessource {
 	public String saveClient(String client) {
 		ObjectMapper mapper = new ObjectMapper();
 		Client c = null;
-		System.out.println(client);
 		try {
 			c = mapper.readValue(client, Client.class);
 			System.out.println("Client : " + c.toString());
-			HibernateClient hibernateClient = new HibernateClient();
-			hibernateClient.saveClient(c);
+			if (c != null) {
+				HibernateClient hibernateClient = new HibernateClient();
+				hibernateClient.saveClient(c);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			return e.getMessage();

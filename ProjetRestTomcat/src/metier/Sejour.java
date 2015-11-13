@@ -55,6 +55,13 @@ public class Sejour implements java.io.Serializable {
 		this.activites = activites;
 	}
 
+	@Override
+	public String toString() {
+		return "Sejour [numSej=" + numSej + ", client=" + client + ", emplacement=" + emplacement + ", dateDebSej="
+				+ dateDebSej + ", dateFinSej=" + dateFinSej + ", nbPersonnes=" + nbPersonnes + ", activites="
+				+ activites + "]";
+	}
+
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 

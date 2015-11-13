@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import erreur.ServiceHibernateException;
 import metier.Activite;
@@ -53,7 +54,7 @@ public class HibernateClient {
 	}
 
 	public void saveClient(Client c) throws HibernateException, ServiceHibernateException {
-		org.hibernate.Transaction tx = session.beginTransaction();
+		Transaction tx = session.beginTransaction();
 		session.saveOrUpdate(c);
 		tx.commit();
 	}
@@ -61,10 +62,15 @@ public class HibernateClient {
 	public boolean deleteClient(String numCli) throws HibernateException, ServiceHibernateException {
 		int ret = 0;
 		try {
-			// TODO supprimer les séjours liées à cet utilisateur avant
 			session = ServiceHibernate.currentSession();
-			Query query = session.createQuery("DELETE FROM Client AS c WHERE c.numCli = " + numCli);
-			ret = query.executeUpdate();
+			Client c = getUnClient(Integer.parseInt(numCli));
+			for (Sejour s : c.getSejours()) {
+				System.out.println(s.toString());
+			}
+			while (c.getSejours().iterator().hasNext()) {
+				session.delete(c.getSejours().iterator().next());
+			}
+			session.delete(c);
 		} catch (Exception ex) {
 			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
 		}
