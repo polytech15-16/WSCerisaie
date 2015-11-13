@@ -1,8 +1,8 @@
 package metier;
 // Generated 5 nov. 2015 15:21:55 by Hibernate Tools 4.3.1
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,13 +31,13 @@ public class Client implements java.io.Serializable {
 	private String villeCli;
 	private String pieceCli;
 	private String numPieceCli;
-	private Set<Sejour> sejours = new HashSet<Sejour>(0);
+	private List<Sejour> sejours = new ArrayList<Sejour>();
 
 	public Client() {
 	}
 
 	public Client(String nomCli, String adrRueCli, String cpCli, String villeCli, String pieceCli, String numPieceCli,
-			Set<Sejour> sejours) {
+			List<Sejour> sejours) {
 		this.nomCli = nomCli;
 		this.adrRueCli = adrRueCli;
 		this.cpCli = cpCli;
@@ -75,8 +75,7 @@ public class Client implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "Client [numCli=" + numCli + ", nomCli=" + nomCli + ", adrRueCli=" + adrRueCli + ", cpCli=" + cpCli
-				+ ", villeCli=" + villeCli + ", pieceCli=" + pieceCli + ", numPieceCli=" + numPieceCli + ", sejours="
-				+ sejours + "]";
+				+ ", villeCli=" + villeCli + ", pieceCli=" + pieceCli + ", numPieceCli=" + numPieceCli + "]";
 	}
 
 	public void setAdrRueCli(String adrRueCli) {
@@ -120,11 +119,11 @@ public class Client implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
-	public Set<Sejour> getSejours() {
+	public List<Sejour> getSejours() {
 		return this.sejours;
 	}
 
-	public void setSejours(Set<Sejour> sejours) {
+	public void setSejours(List<Sejour> sejours) {
 		this.sejours = sejours;
 	}
 

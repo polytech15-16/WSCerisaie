@@ -3,9 +3,9 @@ package metier;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +35,7 @@ public class Sejour implements java.io.Serializable {
 	private Date dateDebSej;
 	private Date dateFinSej;
 	private Integer nbPersonnes;
-	private Set<Activite> activites = new HashSet<Activite>(0);
+	private List<Activite> activites = new ArrayList<Activite>();
 
 	public Sejour() {
 	}
@@ -46,7 +46,7 @@ public class Sejour implements java.io.Serializable {
 	}
 
 	public Sejour(Client client, Emplacement emplacement, Date dateDebSej, Date dateFinSej, Integer nbPersonnes,
-			Set<Activite> activites) {
+			List<Activite> activites) {
 		this.client = client;
 		this.emplacement = emplacement;
 		this.dateDebSej = dateDebSej;
@@ -126,11 +126,11 @@ public class Sejour implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sejour")
-	public Set<Activite> getActivites() {
+	public List<Activite> getActivites() {
 		return this.activites;
 	}
 
-	public void setActivites(Set<Activite> activites) {
+	public void setActivites(List<Activite> activites) {
 		this.activites = activites;
 	}
 

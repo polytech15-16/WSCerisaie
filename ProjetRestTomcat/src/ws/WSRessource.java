@@ -69,8 +69,11 @@ public class WSRessource {
 	@Consumes("application/json")
 	public String deleteClient(String id) {
 		HibernateClient hibernateClient = new HibernateClient();
-		hibernateClient.deleteClient(id);
-		return "Le client est enregistré";
+		if (hibernateClient.deleteClient(id)) {
+			return "Le client est supprimé.";
+		} else {
+			return "Impossible de supprimer le client.";
+		}
 	}
 
 	@GET

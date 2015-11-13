@@ -37,6 +37,7 @@ public class HibernateClient {
 		} catch (Exception ex) {
 			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
 		}
+		System.out.println(mesClients.toString());
 		return mesClients;
 	}
 
@@ -55,26 +56,29 @@ public class HibernateClient {
 
 	public void saveClient(Client c) throws HibernateException, ServiceHibernateException {
 		Transaction tx = session.beginTransaction();
+		System.out.println(c.toString());
 		session.saveOrUpdate(c);
 		tx.commit();
 	}
 
 	public boolean deleteClient(String numCli) throws HibernateException, ServiceHibernateException {
-		int ret = 0;
 		try {
+			Transaction tx = session.beginTransaction();
 			session = ServiceHibernate.currentSession();
 			Client c = getUnClient(Integer.parseInt(numCli));
 			for (Sejour s : c.getSejours()) {
-				System.out.println(s.toString());
-			}
-			while (c.getSejours().iterator().hasNext()) {
-				session.delete(c.getSejours().iterator().next());
+				for (Activite a : s.getActivites()) {
+					session.delete(a);
+				}
+				session.delete(s);
 			}
 			session.delete(c);
+			tx.commit();
 		} catch (Exception ex) {
 			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
+			return false;
 		}
-		return (ret > 0);
+		return true;
 	}
 
 	public List<Sejour> getTouslesSejours() throws HibernateException, ServiceHibernateException {
