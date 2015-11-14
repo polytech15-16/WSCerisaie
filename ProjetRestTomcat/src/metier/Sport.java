@@ -86,7 +86,7 @@ public class Sport implements java.io.Serializable {
 	}
 
 	@XmlTransient
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sport")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "sport")
 	public List<Activite> getActivites() {
 		return this.activites;
 	}

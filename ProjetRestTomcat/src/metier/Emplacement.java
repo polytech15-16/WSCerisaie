@@ -60,7 +60,7 @@ public class Emplacement implements java.io.Serializable {
 		this.numEmpl = numEmpl;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CodeTypeE", nullable = false)
 	public TypeEmplacement getTypeEmplacement() {
 		return this.typeEmplacement;
@@ -89,7 +89,7 @@ public class Emplacement implements java.io.Serializable {
 	}
 
 	@XmlTransient
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "emplacement")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "emplacement")
 	public List<Sejour> getSejours() {
 		return this.sejours;
 	}

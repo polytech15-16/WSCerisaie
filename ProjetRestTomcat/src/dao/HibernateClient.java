@@ -14,10 +14,10 @@ import metier.Sejour;
 import service.ServiceHibernate;
 
 public class HibernateClient {
-	private Session session;
+	//private Session session;
 
 	public HibernateClient() {
-		session = ServiceHibernate.currentSession();
+		//session = ServiceHibernate.currentSession();
 	}
 
 	// On récupère toutes les lignes de la table dans une liste
@@ -29,21 +29,29 @@ public class HibernateClient {
 
 	public List<Client> getTouslesClients() throws HibernateException, ServiceHibernateException {
 		List<Client> mesClients = null;
+		Session session;
+		session = ServiceHibernate.currentSession();
 		try {
 			// On passe une requete de type SQL mais on travaille sur la
 			// classe
 			Query query = session.createQuery("select c from Client as c");
+			query.setCacheable(false);
 			mesClients = query.list();
 		} catch (Exception ex) {
 			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
 		}
 		System.out.println(mesClients.toString());
+		ServiceHibernate.closeSession();
 		return mesClients;
 	}
 
 	public Client getUnClient(int numCli) throws HibernateException, ServiceHibernateException {
 		try {
+
+			Session session;
+			session = ServiceHibernate.currentSession();
 			Query query = session.createQuery("SELECT c FROM Client AS c where c.numCli = " + numCli);
+			query.setCacheable(false);
 			List<Client> lesClients = query.list();
 			if (lesClients != null && lesClients.size() > 0) {
 				return lesClients.get(0);
@@ -51,20 +59,30 @@ public class HibernateClient {
 		} catch (Exception ex) {
 			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
 		}
+
+		ServiceHibernate.closeSession();
 		return null;
 	}
 
 	public void saveClient(Client c) throws HibernateException, ServiceHibernateException {
+
+		Session session;
+		session = ServiceHibernate.currentSession();
 		Transaction tx = session.beginTransaction();
 		System.out.println(c.toString());
 		session.saveOrUpdate(c);
 		tx.commit();
+		
+
+		ServiceHibernate.closeSession();
 	}
 
 	public boolean deleteClient(String numCli) throws HibernateException, ServiceHibernateException {
 		try {
-			Transaction tx = session.beginTransaction();
+			Session session;
 			session = ServiceHibernate.currentSession();
+			Transaction tx = session.beginTransaction();
+			//session = ServiceHibernate.currentSession();
 			Client c = getUnClient(Integer.parseInt(numCli));
 			for (Sejour s : c.getSejours()) {
 				for (Activite a : s.getActivites()) {
@@ -84,6 +102,7 @@ public class HibernateClient {
 	public List<Sejour> getTouslesSejours() throws HibernateException, ServiceHibernateException {
 		List<Sejour> mesSejours = null;
 		try {
+			Session session;
 			session = ServiceHibernate.currentSession();
 			// On passe une requete de type SQL mais on travaille sur la
 			// classe
@@ -98,6 +117,7 @@ public class HibernateClient {
 	public Sejour getUnSejour(int numSej) throws HibernateException, ServiceHibernateException {
 		Sejour sejour = null;
 		try {
+			Session session;
 			session = ServiceHibernate.currentSession();
 			Query query = session.createQuery("SELECT s FROM Sejour AS s where s.numSej = " + numSej);
 			List<Sejour> lesSejours = query.list();
@@ -113,6 +133,7 @@ public class HibernateClient {
 	public List<Activite> getActivites(int numSej) throws HibernateException, ServiceHibernateException {
 		List<Activite> mesActivites = null;
 		try {
+			Session session;
 			session = ServiceHibernate.currentSession();
 			Query query = session.createQuery("SELECT a FROM Activite AS a where a.NumSej = '" + numSej + "'");
 			mesActivites = query.list();

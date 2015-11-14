@@ -61,7 +61,7 @@ public class Activite implements java.io.Serializable {
 	}
 
 	@XmlTransient
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "NumSej", nullable = false)
 	public Sejour getSejour() {
 		return this.sejour;
@@ -72,7 +72,7 @@ public class Activite implements java.io.Serializable {
 	}
 
 	@XmlTransient
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CodeSport", nullable = false)
 	public Sport getSport() {
 		return this.sport;

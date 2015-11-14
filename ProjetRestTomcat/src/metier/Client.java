@@ -31,6 +31,7 @@ public class Client implements java.io.Serializable {
 	private String villeCli;
 	private String pieceCli;
 	private String numPieceCli;
+	
 	private List<Sejour> sejours = new ArrayList<Sejour>();
 
 	public Client() {
@@ -118,7 +119,7 @@ public class Client implements java.io.Serializable {
 		this.numPieceCli = numPieceCli;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "client")
 	public List<Sejour> getSejours() {
 		return this.sejours;
 	}

@@ -75,7 +75,7 @@ public class Sejour implements java.io.Serializable {
 	}
 
 	@XmlTransient
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "NumCli", nullable = false)
 	public Client getClient() {
 		return this.client;
@@ -85,7 +85,7 @@ public class Sejour implements java.io.Serializable {
 		this.client = client;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "NumEmpl", nullable = false)
 	public Emplacement getEmplacement() {
 		return this.emplacement;
@@ -124,7 +124,7 @@ public class Sejour implements java.io.Serializable {
 		this.nbPersonnes = nbPersonnes;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sejour")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "sejour")
 	public List<Activite> getActivites() {
 		return this.activites;
 	}

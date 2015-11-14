@@ -74,7 +74,7 @@ public class TypeEmplacement implements java.io.Serializable {
 	}
 
 	@XmlTransient
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "typeEmplacement")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "typeEmplacement")
 	public Set<Emplacement> getEmplacements() {
 		return this.emplacements;
 	}
