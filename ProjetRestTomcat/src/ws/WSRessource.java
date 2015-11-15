@@ -36,6 +36,14 @@ public class WSRessource {
 	}
 
 	@GET
+	@Path("/getSejoursOfClient/{idClient}")
+	@Produces("application/json")
+	public List<Sejour> afficherSejoursClient(@PathParam("idClient") String id) throws ParseException {
+		HibernateClient hibernateClient = new HibernateClient();
+		return hibernateClient.getSejoursOfClient(Integer.parseInt(id));
+	}
+
+	@GET
 	@Path("/getClient/{id}")
 	@Produces("application/json")
 	// http://localhost:8080/ProjetRestFull/ressources/getjson
@@ -62,7 +70,6 @@ public class WSRessource {
 		Client c = null;
 		try {
 			c = mapper.readValue(client, Client.class);
-			System.out.println("Client : " + c.toString());
 			if (c != null) {
 				HibernateClient hibernateClient = new HibernateClient();
 				hibernateClient.saveClient(c);

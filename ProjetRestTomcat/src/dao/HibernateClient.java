@@ -14,10 +14,10 @@ import metier.Sejour;
 import service.ServiceHibernate;
 
 public class HibernateClient {
-	//private Session session;
+	// private Session session;
 
 	public HibernateClient() {
-		//session = ServiceHibernate.currentSession();
+		// session = ServiceHibernate.currentSession();
 	}
 
 	// On récupère toutes les lignes de la table dans une liste
@@ -72,7 +72,6 @@ public class HibernateClient {
 		System.out.println(c.toString());
 		session.saveOrUpdate(c);
 		tx.commit();
-		
 
 		ServiceHibernate.closeSession();
 	}
@@ -82,7 +81,7 @@ public class HibernateClient {
 			Session session;
 			session = ServiceHibernate.currentSession();
 			Transaction tx = session.beginTransaction();
-			//session = ServiceHibernate.currentSession();
+			// session = ServiceHibernate.currentSession();
 			Client c = getUnClient(Integer.parseInt(numCli));
 			for (Sejour s : c.getSejours()) {
 				for (Activite a : s.getActivites()) {
@@ -141,5 +140,20 @@ public class HibernateClient {
 			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
 		}
 		return mesActivites;
+	}
+
+	public List<Sejour> getSejoursOfClient(int idClient) {
+		List<Sejour> mesSejours = null;
+		try {
+			Session session;
+			session = ServiceHibernate.currentSession();
+			// On passe une requete de type SQL mais on travaille sur la
+			// classe
+			Query query = session.createQuery("select s from Sejour as s where s.client.numCli=" + idClient);
+			mesSejours = query.list();
+		} catch (Exception ex) {
+			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
+		}
+		return mesSejours;
 	}
 }
