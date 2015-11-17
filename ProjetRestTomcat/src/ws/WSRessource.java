@@ -16,6 +16,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import dao.HibernateClient;
 import metier.Client;
+import metier.Emplacement;
 import metier.Sejour;
 
 @Path("/ressources")
@@ -33,6 +34,15 @@ public class WSRessource {
 	public Sejour afficherSejour(@PathParam("id") String id) throws ParseException {
 		HibernateClient hibernateClient = new HibernateClient();
 		return hibernateClient.getUnSejour(Integer.parseInt(id));
+	}
+
+	@GET
+	@Path("/getSejoursList")
+	@Produces("application/json")
+	// http://localhost:8080/ProjetRestFull/ressources/getjson
+	public List<Sejour> afficherSejours() throws ParseException {
+		HibernateClient hibernateClient = new HibernateClient();
+		return hibernateClient.getTouslesSejours();
 	}
 
 	@GET
@@ -61,6 +71,15 @@ public class WSRessource {
 		return hibernateClient.getTouslesClients();
 	}
 
+	@GET
+	@Path("/getEmplacementsList")
+	@Produces("application/json")
+	// http://localhost:8080/ProjetRestFull/ressources/getjson
+	public List<Emplacement> afficherEmplacements() throws ParseException {
+		HibernateClient hibernateClient = new HibernateClient();
+		return hibernateClient.getTouslesEmplacements();
+	}
+
 	@POST
 	@Path("/saveClient")
 	@Produces("application/json")
@@ -82,6 +101,26 @@ public class WSRessource {
 	}
 
 	@POST
+	@Path("/saveSejour")
+	@Produces("application/json")
+	@Consumes("application/json")
+	public String saveSejour(String sejour) {
+		ObjectMapper mapper = new ObjectMapper();
+		Sejour s = null;
+		try {
+			s = mapper.readValue(sejour, Sejour.class);
+			if (s != null) {
+				HibernateClient hibernateClient = new HibernateClient();
+				hibernateClient.saveSejour(s);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		return "Le séjour est enregistré";
+	}
+
+	@POST
 	@Path("/deleteClient")
 	@Produces("application/json")
 	@Consumes("application/json")
@@ -91,6 +130,19 @@ public class WSRessource {
 			return "Le client est supprimé.";
 		} else {
 			return "Impossible de supprimer le client.";
+		}
+	}
+
+	@POST
+	@Path("/deleteSejour")
+	@Produces("application/json")
+	@Consumes("application/json")
+	public String deleteSejour(String id) {
+		HibernateClient hibernateClient = new HibernateClient();
+		if (hibernateClient.deleteSejour(id)) {
+			return "Le séjour est supprimé.";
+		} else {
+			return "Impossible de supprimer le séjour.";
 		}
 	}
 

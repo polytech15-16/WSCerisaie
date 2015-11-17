@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 import erreur.ServiceHibernateException;
 import metier.Activite;
 import metier.Client;
+import metier.Emplacement;
 import metier.Sejour;
 import service.ServiceHibernate;
 
@@ -65,14 +66,12 @@ public class HibernateClient {
 	}
 
 	public void saveClient(Client c) throws HibernateException, ServiceHibernateException {
-
 		Session session;
 		session = ServiceHibernate.currentSession();
 		Transaction tx = session.beginTransaction();
 		System.out.println(c.toString());
 		session.saveOrUpdate(c);
 		tx.commit();
-
 		ServiceHibernate.closeSession();
 	}
 
@@ -100,16 +99,18 @@ public class HibernateClient {
 
 	public List<Sejour> getTouslesSejours() throws HibernateException, ServiceHibernateException {
 		List<Sejour> mesSejours = null;
+		Session session;
+		session = ServiceHibernate.currentSession();
 		try {
-			Session session;
-			session = ServiceHibernate.currentSession();
 			// On passe une requete de type SQL mais on travaille sur la
 			// classe
 			Query query = session.createQuery("select s from Sejour as s");
+			query.setCacheable(false);
 			mesSejours = query.list();
 		} catch (Exception ex) {
 			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
 		}
+		ServiceHibernate.closeSession();
 		return mesSejours;
 	}
 
@@ -155,5 +156,51 @@ public class HibernateClient {
 			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
 		}
 		return mesSejours;
+	}
+
+	public List<Emplacement> getTouslesEmplacements() {
+		List<Emplacement> mesEmplacements = null;
+		Session session;
+		session = ServiceHibernate.currentSession();
+		try {
+			// On passe une requete de type SQL mais on travaille sur la
+			// classe
+			Query query = session.createQuery("select s from Emplacement as s");
+			query.setCacheable(false);
+			mesEmplacements = query.list();
+		} catch (Exception ex) {
+			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
+		}
+		ServiceHibernate.closeSession();
+		return mesEmplacements;
+	}
+
+	public void saveSejour(Sejour s) {
+		Session session;
+		session = ServiceHibernate.currentSession();
+		Transaction tx = session.beginTransaction();
+		System.out.println(s.toString());
+		session.saveOrUpdate(s);
+		tx.commit();
+		ServiceHibernate.closeSession();
+	}
+
+	public boolean deleteSejour(String id) {
+		try {
+			Session session;
+			session = ServiceHibernate.currentSession();
+			Transaction tx = session.beginTransaction();
+			// session = ServiceHibernate.currentSession();
+			Sejour s = getUnSejour(Integer.parseInt(id));
+			for (Activite a : s.getActivites()) {
+				session.delete(a);
+			}
+			session.delete(s);
+			tx.commit();
+		} catch (Exception ex) {
+			System.out.println("Erreur ServiceHiber : " + ex.getMessage());
+			return false;
+		}
+		return true;
 	}
 }
