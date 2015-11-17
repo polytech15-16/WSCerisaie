@@ -71,7 +71,6 @@ public class Activite implements java.io.Serializable {
 		this.sejour = sejour;
 	}
 
-	@XmlTransient
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CodeSport", nullable = false)
 	public Sport getSport() {
